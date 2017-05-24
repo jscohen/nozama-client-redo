@@ -190,10 +190,15 @@ label {
   .product-price {
     clear: both;
     width: 70px;
+    margin-right: 30px;
+  }
+
+  .quant {
+    margin-left: 50px;
   }
 
   .product-quantity {
-    width: 100px;
+    margin-left: 20px;
   }
   .product-quantity input {
     margin-left: 20px;
