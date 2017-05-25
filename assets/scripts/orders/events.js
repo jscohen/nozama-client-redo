@@ -105,8 +105,6 @@ const showOrderForm = function () {
 //   Stripe.setPublishableKey('pk_test_9WemBaMhQokjQEfkfAQiLXmr')
 // }
 
-
-
 const addHandlers = () => {
   $('#order-button').on('click', getOrders)
   $('#order-form').on('submit', checkout)

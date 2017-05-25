@@ -33,6 +33,7 @@ const getProductsFailure = (error) => {
 
 const getProductSuccess = (product) => {
   store.product = product
+  console.log(product)
 }
 
 const getProductFailure = (error) => {

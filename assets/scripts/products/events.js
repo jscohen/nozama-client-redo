@@ -1,9 +1,7 @@
 'use strict'
 
-
 const prodApi = require('./api.js')
 const prodUi = require('./ui.js')
-
 
 const getProducts = function (event) {
   const category = $(this).attr('id')

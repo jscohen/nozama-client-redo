@@ -10,19 +10,19 @@ const onCreateCartFailure = function (error) {
 }
 
 const onUpdateCartSuccess = function (data) {
-
+  console.log(data)
+  console.log('wahoo')
 }
 
 const onAddToCartSuccess = function (data) {
   $('.cartItem').empty()
   $('.cartItem').text(store.addedItem)
   $('#addItem').modal('show')
+  console.log(data)
 }
 
 const onUpdateCartFailure = function (error) {
-  if (error.status === 404) {
-    $('#alreadyInCart').modal('show')
-  }
+  console.log(error)
 }
 
 const deleteCartSuccess = function (data) {

@@ -43,6 +43,9 @@ const showCart = function (cartData) {
     removeItem(this)
   })
   /* Update quantity */
+  $('.product-quantity input').change(function () {
+    updateQuantity(this)
+  })
 }
 /* Recalculate cart */
 function recalculateCart () {
@@ -134,14 +137,52 @@ function updateQuantity (quantityInput) {
   const linePrice = price * quantity
   const fadeTime = 300
 
-  /* Update line price display and recalc cart totals */
-  productRow.children('.product-line-price').each(function () {
-    $(this).fadeOut(fadeTime, function () {
-      $(this).text(linePrice.toFixed(2))
-      recalculateCart()
-      $(this).fadeIn(fadeTime)
+  store.quantity = quantity
+
+  console.log(productRow.attr('id'))
+
+  const prodId = productRow.attr('id')
+  const prodApi = require('../products/api')
+  const prodUi = require('../products/ui')
+
+  prodApi.show(prodId)
+  .then(addQuantToProduct)
+  .catch(prodUi.getProductFailure)
+  .then(() =>
+    productRow.children('.product-line-price').each(function () {
+      $(this).fadeOut(fadeTime, function () {
+        $(this).text(linePrice.toFixed(2))
+        recalculateCart()
+        $(this).fadeIn(fadeTime)
+      })
     })
-  })
+  )
+  /* Update line price display and recalc cart totals */
+}
+
+function addQuantToProduct (data) {
+  console.log(data)
+  console.log(data.product.price)
+  console.log(store.quantity)
+  const newTotalPrice = store.cart.totalPrice += (data.product.price * store.quantity)
+  store.cart.totalPrice = newTotalPrice
+  const pri = data.product.price * store.quantity
+  const params = {
+    cart: {
+      totalPrice: newTotalPrice,
+      products: [{
+        _id: data.product._id,
+        sku: data.product.sku,
+        quantity: store.quantity,
+        name: data.product.name,
+        price: pri
+      }]
+    }
+  }
+  api.update(params, 'changeQuantity')
+    .then(ui.onUpdateCartSuccess)
+    .catch(ui.onUpdateCartFailure)
+
 }
 
 function removeItem (removeButton) {
