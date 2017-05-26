@@ -164,7 +164,7 @@ function addQuantToProduct (data) {
   console.log(data)
   console.log(data.product.price)
   console.log(store.quantity)
-  const newTotalPrice = store.cart.totalPrice = (data.product.price * store.quantity)
+  const newTotalPrice = store.cart.totalPrice + (data.product.price * store.quantity)
   store.cart.totalPrice = newTotalPrice
   const pri = data.product.price * store.quantity
   const params = {
@@ -179,6 +179,7 @@ function addQuantToProduct (data) {
       }]
     }
   }
+  console.log(store.cart)
   api.update(params, 'changeQuantity')
     .then(ui.onUpdateCartSuccess)
     .catch(ui.onUpdateCartFailure)

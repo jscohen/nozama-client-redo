@@ -10,7 +10,7 @@ const onCreateCartFailure = function (error) {
 }
 
 const onUpdateCartSuccess = function (data) {
-  console.log(data)
+  console.log(store.cart)
   console.log('wahoo')
 }
 
@@ -35,6 +35,7 @@ const deleteCartFailure = function (error) {
 
 const onGetCartSuccess = function (data) {
   const events = require('./events')
+  console.log(data.cart)
   store.cart = data.cart
   events.showCart(data.cart)
   events.recalculateCart()
