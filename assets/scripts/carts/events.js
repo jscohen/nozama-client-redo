@@ -111,7 +111,7 @@ const removeFromCart = function (id) {
           products: [{
             _id: data._id,
             sku: data.sku,
-            quantity: 1,
+            quantity: data.quantity,
             name: data.name,
             price: data.price
           }]
@@ -125,9 +125,9 @@ const removeFromCart = function (id) {
   }
 }
 
-$('.product-quantity input').change(function () {
-  updateQuantity(this)
-})
+// $('.product-quantity input').change(function () {
+//   updateQuantity(this)
+// })
 
 function updateQuantity (quantityInput) {
   /* Calculate line price */
@@ -152,6 +152,7 @@ function updateQuantity (quantityInput) {
     productRow.children('.product-line-price').each(function () {
       $(this).fadeOut(fadeTime, function () {
         $(this).text(linePrice.toFixed(2))
+        console.log(store.cart)
         recalculateCart()
         $(this).fadeIn(fadeTime)
       })
@@ -179,7 +180,7 @@ function addQuantToProduct (data) {
       }]
     }
   }
-  console.log(store.cart)
+  console.log(params)
   api.update(params, 'changeQuantity')
     .then(ui.onUpdateCartSuccess)
     .catch(ui.onUpdateCartFailure)

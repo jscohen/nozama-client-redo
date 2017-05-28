@@ -10,7 +10,8 @@ const onCreateCartFailure = function (error) {
 }
 
 const onUpdateCartSuccess = function (data) {
-  console.log(store.cart)
+  console.log(data)
+  store.cart = data.cart
   console.log('wahoo')
 }
 
