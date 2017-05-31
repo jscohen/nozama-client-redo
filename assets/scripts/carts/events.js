@@ -152,7 +152,6 @@ function updateQuantity (quantityInput) {
     productRow.children('.product-line-price').each(function () {
       $(this).fadeOut(fadeTime, function () {
         $(this).text(linePrice.toFixed(2))
-        console.log(store.cart)
         recalculateCart()
         $(this).fadeIn(fadeTime)
       })
@@ -162,25 +161,20 @@ function updateQuantity (quantityInput) {
 }
 
 function addQuantToProduct (data) {
-  console.log(data)
-  console.log(data.product.price)
-  console.log(store.quantity)
-  const newTotalPrice = store.cart.totalPrice + (data.product.price * store.quantity)
+  const newTotalPrice = store.cart.totalPrice + (data.product.price * (store.quantity - 1))
   store.cart.totalPrice = newTotalPrice
   const pri = data.product.price * store.quantity
-  const params = {
-    cart: {
-      totalPrice: newTotalPrice,
-      products: [{
-        _id: data.product._id,
-        sku: data.product.sku,
-        quantity: store.quantity,
-        name: data.product.name,
-        price: pri
-      }]
+
+  for (let i = 0; i < store.cart.products.length; i++) {
+    if (store.cart.products[i].sku === data.product.sku) {
+      store.cart.products[i].quantity = store.quantity
+      store.cart.products[i].price = pri
+      store.cart.totalPrice = newTotalPrice
     }
   }
-  console.log(params)
+  const params = {
+    cart: store.cart
+  }
   api.update(params, 'changeQuantity')
     .then(ui.onUpdateCartSuccess)
     .catch(ui.onUpdateCartFailure)
@@ -226,5 +220,6 @@ module.exports = {
   addToCart,
   deleteCart,
   showCart,
-  recalculateCart
+  recalculateCart,
+  onGetCart
 }

@@ -3,6 +3,8 @@ const store = require('../store')
 
 const onCreateCartSuccess = function (data) {
   store.cart = data.cart
+  console.log(store.cart)
+  console.log(data.cart)
 }
 
 const onCreateCartFailure = function (error) {
@@ -10,9 +12,9 @@ const onCreateCartFailure = function (error) {
 }
 
 const onUpdateCartSuccess = function (data) {
-  console.log(data)
-  store.cart = data.cart
   console.log('wahoo')
+  const events = require('./events')
+  events.onGetCart()
 }
 
 const onAddToCartSuccess = function (data) {
