@@ -9,7 +9,11 @@ const createAddress = function (data) {
       .then(ui.onCreateAddressSuccess)
       .catch(ui.onCreateAddressFailure)
 }
+const getAddresses = function (data) {
+  api.get().then(ui.onGetAddressSuccess).catch(ui.onGetAddressFailure)
+}
 
 module.exports = {
-  createAddress
+  createAddress,
+  getAddresses
 }

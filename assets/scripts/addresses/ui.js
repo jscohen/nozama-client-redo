@@ -10,7 +10,18 @@ const onCreateAddressFailure = function (error) {
   console.log(error)
 }
 
+const onGetAddressSuccess = function (data) {
+  console.log(data)
+  console.log('get address success')
+}
+
+const onGetAddressFailure = function (error) {
+  console.log(error)
+}
+
 module.exports = {
   onCreateAddressSuccess,
-  onCreateAddressFailure
+  onCreateAddressFailure,
+  onGetAddressSuccess,
+  onGetAddressFailure
 }

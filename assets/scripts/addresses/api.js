@@ -13,6 +13,17 @@ const create = (data) => {
   })
 }
 
+const get = () => {
+  return $.ajax({
+    url: config.apiOrigin + '/carts',
+    method: 'GET',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
 module.exports = {
-  create
+  create,
+  get
 }
