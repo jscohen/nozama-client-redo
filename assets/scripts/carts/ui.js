@@ -45,7 +45,11 @@ const onGetCartSuccess = function (data) {
 }
 
 const onAddToCartFailure = function (error) {
-  $('#duplicateCartItem').modal('show')
+  console.log(error)
+}
+
+const onAddDupSuccess = function (data) {
+  console.log('item added a second time successfully')
 }
 
 module.exports = {
@@ -57,5 +61,6 @@ module.exports = {
   deleteCartFailure,
   onGetCartSuccess,
   onAddToCartSuccess,
-  onAddToCartFailure
+  onAddToCartFailure,
+  onAddDupSuccess
 }

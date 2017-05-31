@@ -78,6 +78,21 @@ const addToCart = function (data) {
     $('#addCartSignedOut').modal('show')
     return
   }
+
+  for (let i = 0; i < store.cart.products.length; i++) {
+    if (data.sku === store.cart.products[i].sku) {
+      store.cart.products[i].quantity += 1
+      const params = {
+        cart: store.cart
+      }
+      $('#alreadyInCart').modal('show')
+      api.update(params, 'changeQuantity')
+        .then(ui.onAddDupSuccess)
+        .catch(ui.onUpdateCartFailure)
+      return false
+    }
+  }
+
   const newTotalPrice = store.cart.totalPrice += data.price
   store.cart.totalPrice = newTotalPrice
   const params = {
