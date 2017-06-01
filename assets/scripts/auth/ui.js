@@ -24,10 +24,11 @@ const signInSuccess = (data) => {
   $('#welcome').modal('show')
 }
 
-const signInFailure = () => {
+const signInFailure = (error) => {
   $('#sign-in').trigger('reset')
   $('#signInFailure').modal('show')
   $('.dropdown-menu').trigger('click')
+  console.log('inside sign in failure', error)
 }
 
 const signOutSuccess = (data) => {
