@@ -2,7 +2,7 @@
 
 const config = {
   apiOrigins: {
-    production: 'https://nozama-api-redo.herokuapp.com/'
+    production: 'https://nozama-api-redo.herokuapp.com'
   }
 }
 
