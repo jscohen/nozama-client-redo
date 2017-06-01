@@ -13,7 +13,7 @@ const index = (categoryName) => {
 
 const show = (id) => {
   return $.ajax({
-    url: config.apiOrigin + '/products' + id,
+    url: config.apiOrigin + '/products/' + id,
     method: 'GET'
   })
 }

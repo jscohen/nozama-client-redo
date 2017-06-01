@@ -3,6 +3,8 @@ const store = require('../store')
 
 const onCreateCartSuccess = function (data) {
   store.cart = data.cart
+  console.log(store.cart)
+  console.log(data.cart)
 }
 
 const onCreateCartFailure = function (error) {
@@ -10,19 +12,20 @@ const onCreateCartFailure = function (error) {
 }
 
 const onUpdateCartSuccess = function (data) {
-
+  console.log('wahoo')
+  const events = require('./events')
+  events.onGetCart()
 }
 
 const onAddToCartSuccess = function (data) {
   $('.cartItem').empty()
   $('.cartItem').text(store.addedItem)
   $('#addItem').modal('show')
+  console.log(data)
 }
 
 const onUpdateCartFailure = function (error) {
-  if (error.status === 404) {
-    $('#alreadyInCart').modal('show')
-  }
+  console.log(error)
 }
 
 const deleteCartSuccess = function (data) {
@@ -35,13 +38,18 @@ const deleteCartFailure = function (error) {
 
 const onGetCartSuccess = function (data) {
   const events = require('./events')
+  console.log(data.cart)
   store.cart = data.cart
   events.showCart(data.cart)
   events.recalculateCart()
 }
 
 const onAddToCartFailure = function (error) {
-  $('#duplicateCartItem').modal('show')
+  console.log(error)
+}
+
+const onAddDupSuccess = function (data) {
+  console.log('item added a second time successfully')
 }
 
 module.exports = {
@@ -53,5 +61,6 @@ module.exports = {
   deleteCartFailure,
   onGetCartSuccess,
   onAddToCartSuccess,
-  onAddToCartFailure
+  onAddToCartFailure,
+  onAddDupSuccess
 }

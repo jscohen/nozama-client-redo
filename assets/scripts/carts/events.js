@@ -43,6 +43,9 @@ const showCart = function (cartData) {
     removeItem(this)
   })
   /* Update quantity */
+  $('.product-quantity input').change(function () {
+    updateQuantity(this)
+  })
 }
 /* Recalculate cart */
 function recalculateCart () {
@@ -75,6 +78,21 @@ const addToCart = function (data) {
     $('#addCartSignedOut').modal('show')
     return
   }
+
+  for (let i = 0; i < store.cart.products.length; i++) {
+    if (data.sku === store.cart.products[i].sku) {
+      store.cart.products[i].quantity += 1
+      const params = {
+        cart: store.cart
+      }
+      $('#alreadyInCart').modal('show')
+      api.update(params, 'changeQuantity')
+        .then(ui.onAddDupSuccess)
+        .catch(ui.onUpdateCartFailure)
+      return false
+    }
+  }
+
   const newTotalPrice = store.cart.totalPrice += data.price
   store.cart.totalPrice = newTotalPrice
   const params = {
@@ -108,7 +126,7 @@ const removeFromCart = function (id) {
           products: [{
             _id: data._id,
             sku: data.sku,
-            quantity: 1,
+            quantity: data.quantity,
             name: data.name,
             price: data.price
           }]
@@ -122,9 +140,9 @@ const removeFromCart = function (id) {
   }
 }
 
-$('.product-quantity input').change(function () {
-  updateQuantity(this)
-})
+// $('.product-quantity input').change(function () {
+//   updateQuantity(this)
+// })
 
 function updateQuantity (quantityInput) {
   /* Calculate line price */
@@ -134,14 +152,47 @@ function updateQuantity (quantityInput) {
   const linePrice = price * quantity
   const fadeTime = 300
 
-  /* Update line price display and recalc cart totals */
-  productRow.children('.product-line-price').each(function () {
-    $(this).fadeOut(fadeTime, function () {
-      $(this).text(linePrice.toFixed(2))
-      recalculateCart()
-      $(this).fadeIn(fadeTime)
+  store.quantity = quantity
+
+  console.log(productRow.attr('id'))
+
+  const prodId = productRow.attr('id')
+  const prodApi = require('../products/api')
+  const prodUi = require('../products/ui')
+
+  prodApi.show(prodId)
+  .then(addQuantToProduct)
+  .catch(prodUi.getProductFailure)
+  .then(() =>
+    productRow.children('.product-line-price').each(function () {
+      $(this).fadeOut(fadeTime, function () {
+        $(this).text(linePrice.toFixed(2))
+        recalculateCart()
+        $(this).fadeIn(fadeTime)
+      })
     })
-  })
+  )
+  /* Update line price display and recalc cart totals */
+}
+
+function addQuantToProduct (data) {
+  const newTotalPrice = store.cart.totalPrice + (data.product.price * (store.quantity - 1))
+  store.cart.totalPrice = newTotalPrice
+  const pri = data.product.price * store.quantity
+
+  for (let i = 0; i < store.cart.products.length; i++) {
+    if (store.cart.products[i].sku === data.product.sku) {
+      store.cart.products[i].quantity = store.quantity
+      store.cart.products[i].price = pri
+      store.cart.totalPrice = newTotalPrice
+    }
+  }
+  const params = {
+    cart: store.cart
+  }
+  api.update(params, 'changeQuantity')
+    .then(ui.onUpdateCartSuccess)
+    .catch(ui.onUpdateCartFailure)
 }
 
 function removeItem (removeButton) {
@@ -184,5 +235,6 @@ module.exports = {
   addToCart,
   deleteCart,
   showCart,
-  recalculateCart
+  recalculateCart,
+  onGetCart
 }

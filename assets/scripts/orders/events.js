@@ -23,6 +23,20 @@ const getOrder = function (orderId) {
 }
 
 const checkout = function (event) {
+  const addressFunc = require('../addresses/events')
+  if ($('#checkBox').is(':checked')) {
+    console.log('its checked!')
+    const params = {
+      address: {
+        street: $('input[name=address]').val(),
+        city: $('input[name=city]').val(),
+        state: $('input[name=state]').val(),
+        country: $('input[name=country]').val(),
+        zip: $('input[name=zip_code]').val()
+      }
+    }
+    addressFunc.createAddress(params)
+  }
   const handler = StripeCheckout.configure({
     key: 'pk_test_9WemBaMhQokjQEfkfAQiLXmr',
     image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
@@ -104,8 +118,6 @@ const showOrderForm = function () {
 // const setupStripe = function () {
 //   Stripe.setPublishableKey('pk_test_9WemBaMhQokjQEfkfAQiLXmr')
 // }
-
-
 
 const addHandlers = () => {
   $('#order-button').on('click', getOrders)

@@ -255,7 +255,7 @@
         <div class="modal-content">
           <div class="alert alert-success alert-dismissible text-center" role="alert">
             <h4>Item Already in Your Cart</h4>
-            <p>This item is already in your cart. You can remove it by opening the cart if you wish.</p>
+            <p>This item is already in your cart, so the order quantity has increased by one.</p>
           </div>
         </div>
       </div>
@@ -385,7 +385,7 @@
 
           <div class="column-labels">
             <label class="productprice">Price</label>
-            <label class="productremoval">Remove</label>
+            <label class="product-quantity quant">Quantity</label>
             <label class="productlineprice">Total</label>
           </div>
 
@@ -481,6 +481,8 @@
                   <div class="text-center">
                     <button type="submit" id="place-order" class="btn btn-primary btn-submit-fix">Place Order</button>
                     <button type="button" id="shop-again" class="btn btn-primary btn-submit-fix">Shop Again</button>
+                    <input id="checkBox" type="checkbox">
+                    <label>Check here to save this address for future use</label>
                   </div>
                   </form>
                 </div>

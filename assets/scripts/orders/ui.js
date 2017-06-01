@@ -27,8 +27,12 @@ const getOrderFailure = (error) => {
 
 const createOrderSuccess = () => {
   const cartApi = require('../carts/events')
-  cartApi.deleteCart()
-  cartApi.createCart()
+  const api = require('../carts/api')
+  const ui = require('../carts/ui')
+  api.destroy()
+  .then(ui.deleteCartSuccess)
+  .catch(ui.deleteCartFailure)
+  .then(cartApi.createCart)
   $('#orderPlaced').modal('show')
   $('input').val('')
   $('#card-expiry-month').val('Month')
