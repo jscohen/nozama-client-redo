@@ -125,7 +125,13 @@ const getSavedAddress = function (event) {
   console.log('inside saved address')
   event.preventDefault()
   const val = $('.address-display').find(':selected').text()
-  console.log(val)
+  const newString = val.trim()
+  const newStringSplit = newString.split('\n')
+  console.log(newStringSplit)
+  const street = newStringSplit[0].split(':')
+  const city = newStringSplit[1].split(':')
+  const finalStreet = street.trim()
+  const finalCity = city.trim()
 }
 
 const addHandlers = () => {
