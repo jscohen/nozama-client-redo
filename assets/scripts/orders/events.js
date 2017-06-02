@@ -130,8 +130,20 @@ const getSavedAddress = function (event) {
   console.log(newStringSplit)
   const street = newStringSplit[0].split(':')
   const city = newStringSplit[1].split(':')
-  const finalStreet = street.trim()
-  const finalCity = city.trim()
+  const state = newStringSplit[2].split(':')
+  const zip = newStringSplit[3].split(':')
+  const country = newStringSplit[4].split(':')
+  const finalStreet = street[1].trim()
+  const finalCity = city[1].trim()
+  const finalState = state[1].trim()
+  const finalZip = zip[1].trim()
+  const finalCountry = country[1].trim()
+  $('#addressField').val(finalStreet)
+  $('#cityField').val(finalCity)
+  $('#stateField').val(finalState)
+  $('#zipField').val(finalZip)
+  $('#countryField').val(finalCountry)
+  $('#nameField').val(store.user.email)
 }
 
 const addHandlers = () => {
