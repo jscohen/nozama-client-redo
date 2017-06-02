@@ -82,9 +82,13 @@ const addToCart = function (data) {
   for (let i = 0; i < store.cart.products.length; i++) {
     if (data.sku === store.cart.products[i].sku) {
       store.cart.products[i].quantity += 1
+      store.cart.products[i].price += data.price
+      store.cart.totalPrice += data.price
       const params = {
         cart: store.cart
       }
+      store.quantity = store.cart.products[i].quantity
+      store.added = store.cart.products[i]._id
       $('#alreadyInCart').modal('show')
       api.update(params, 'changeQuantity')
         .then(ui.onAddDupSuccess)
@@ -236,5 +240,6 @@ module.exports = {
   deleteCart,
   showCart,
   recalculateCart,
-  onGetCart
+  onGetCart,
+  updateQuantity
 }
