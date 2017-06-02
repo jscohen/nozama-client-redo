@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>nozama</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Do not add `link` tags unless you know what you are doing -->
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+  <!-- Do not add `script` tags unless you know what you are doing -->
+  <script src="public/vendor.js" type="text/javascript" charset="utf-8" defer></script>
+  <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
+  <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+  <script src="https://checkout.stripe.com/checkout.js"></script>
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                      <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+        <a class="navbar-brand" href="#">Nozama</a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div>
+          <span class="glyphicon glyphicon-shopping-cart cartcolor"></span>
+        </div>
+        <!-- <ul class="nav navbar-nav">
+                        <li>
+                            <a href="#">About</a>
+                        </li>
+                        <li>
+                            <a href="#">Services</a>
+                        </li>
+                        <li>
+                            <a href="#">Contact</a>
+                        </li>
+                    </ul> -->
+        <!-- ***** start of login / sign-up drop down in NAV **** -->
+        <ul class="nav navbar-nav">
+          <li class="dropdown account">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Account</b> <span class="caret"></span></a>
+            <ul id="login-dp" class="dropdown-menu">
+              <li>
+                <div class="row sign-in">
+                  <div class="col-md-12">
+                    <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="sign-in">
+                      <div class="form-group">
+                        <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                        <input type="email" name="credentials[email]" class="form-control" placeholder="Email address" required>
+                      </div>
+                      <div class="form-group">
+                        <label class="sr-only" for="exampleInputPassword2">Password</label>
+                        <input type="password" name="credentials[password]" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
+                      </div>
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Sign-In</button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="bottom text-center">
+                    Dont have an account? <a href="#" class="linkSignUp"><b>Sign-Up</b></a>
+                  </div>
+                </div>
+                <!-- END of SIGN-IN -->
+                <!-- Start of Sign-UP -->
+                <div class="row sign-up">
+                  <div class="col-md-12">
+                    <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="sign-up">
+                      <div class="form-group">
+                        <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                        <input type="email" name="credentials[email]" class="form-control" id="exampleInputEmail2" placeholder="Email address" required>
+                      </div>
+                      <div class="form-group">
+                        <label class="sr-only" for="exampleInputPassword2">Password</label>
+                        <input type="password" name="credentials[password]" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
+                      </div>
+                      <div class="form-group">
+                        <label class="sr-only" for="exampleInputPassword2">Confirm Password</label>
+                        <input type="password" name="credentials[password_confirmation]" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
+                      </div>
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Sign-Up</button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="bottom text-center">
+                    Already have an account? <a href="#" class="linkSignIn"><b>Sign-In</b></a>
+                  </div>
+                </div>
+                <!-- End of Sign-up -->
+                <!-- start of Singout -->
+                <div class="row sign-out">
+                  <div class="col-md-12">
+                    <div class="bottom text-center">
+                      <button type="button" class="linkChangePassword btn btn-primary btn-block">Change Password</button>
+                    </div>
+                    <div class="bottom text-center">
+                      <button type="button" class="btn btn-primary btn-block" id="order-button">Order History</button>
+                    </div>
+                    <div class="bottom text-center">
+                      <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="sign-out">
+                        <button type="submit" class="btn btn-primary btn-block">Sign Out</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <!-- end of Sign-out -->
+                <!-- Start of change password -->
+                <div class="row change-password">
+                  <div class="col-md-12">
+                    <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="change-password">
+                      <div class="form-group">
+                        <label class="sr-only" for="exampleInputPassword2">Old Password</label>
+                        <input type="password" name="passwords[old]" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
+                      </div>
+                      <div class="form-group">
+                        <label class="sr-only" for="exampleInputPassword2">New Password</label>
+                        <input type="password" name="passwords[new]" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
+                      </div>
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">change-password</button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="bottom text-center">
+                    Want to go back? <a href="#" class="linkAccount"><b>Account Menu</b></a>
+                  </div>
+                </div>
+                <!-- End of change password -->
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <!-- /.navbar-collapse -->
+      </div>
+    </div>
+    <!-- end of DIV container -->
+  </nav>
+  <!-- END OF NAV BAR -->
+  <!-- *******  Page Content Body  ******-->
+  <div class="container">
+    <!-- ERROR MESSAGES -->
+
+    <div id="signUpSuccess" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="alert alert-success">
+            <h4>Sign-Up has been completed!</h4>
+            <p>Your acount has been created successfully. Please sign-in to begin shopping!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="signUpFailure" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="alert alert-danger alert-dismissible text-center" role="alert">
+            <h4>Sign-Up was unsuccessful!</h4>
+            <p>Either your email account is already in used or your password does not match. Please try again!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="chgPswdSuccess" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="alert alert-success">
+            <h4>Password Change Successfully!</h4>
+            <p>Change password performed successfully. Please remember to use new password!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="chgPswdFailure" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="alert alert-danger alert-dismissible text-center" role="alert">
+            <h4>Password Change Failed!</h4>
+            <p>The Old Password you enter incorrect. Please try again!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="signInFailure" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="alert alert-danger alert-dismissible text-center" role="alert">
+            <h4>Sign-In Failed!</h4>
+            <p>Either your email or password is incorrect. Please try again!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="addCartSignedOut" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="alert alert-info alert-dismissible text-center" role="alert">
+            <h4>Unable to add to cart</h4>
+            <p>Sorry, but you need to be logged in in order to add items to your cart. Please login now!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="duplicateCartItem" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="alert alert-warning">
+            <h4>Duplicate Item</h4>
+            <p>This item is already in your cart!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="welcome" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="alert alert-success alert-dismissible text-center" role="alert">
+            <h4>Welcome!</h4>
+            <p>Have a magical shopping experience. And remember - Shipping is always free!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="signOut" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="alert alert-success alert-dismissible text-center" role="alert">
+            <h4>Signed Out</h4>
+            <p>You are now signed out. Have a good day!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="alreadyInCart" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="alert alert-success alert-dismissible text-center" role="alert">
+            <h4>Item Already in Your Cart</h4>
+            <p>This item is already in your cart, so the order quantity has increased by one.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="notSignedIn" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="alert alert-success alert-dismissible text-center" role="alert">
+            <h4>You need to sign in</h4>
+            <p>You need to create an account and sign in before accessing a shopping cart.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="addItem" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="alert alert-success alert-dismissible text-center" role="alert">
+            <h4>Item Added</h4>
+            <p><span class="cartItem"></span> has been added to your cart.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="orderPlaced" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="alert alert-success alert-dismissible text-center" role="alert">
+            <h4>Order Successfully Placed</h4>
+            <p>Your order is complete! Click on the Shop Again button to shop again.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="orderError" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="alert alert-success alert-dismissible text-center" role="alert">
+            <h4>There was a problem processing your order</h4>
+            <p><span class="orderIssue"></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- end of error messages -->
+    <section class="landing" id="landing">
+      <!-- Jumbotron Header -->
+      <header class="jumbotron hero-spacer animated lightSpeedIn">
+        <h1>Nozama</h1>
+      </header>
+
+      <hr>
+
+      <!-- Title -->
+      <div class="row">
+        <div class="col-lg-12">
+          <h3>Catalog</h3>
+        </div>
+      </div>
+      <!-- /.row -->
+
+      <!-- Page Features -->
+      <div class="row text-center">
+
+        <div class="col-md-3 col-sm-6 hero-feature product-category animated fadeInDown" id="Watch">
+          <div class="thumbnail">
+            <img src="https://d2nwzygg3x0bhb.cloudfront.net/product-images/watches.jpg" alt="">
+            <div class="caption">
+              <h3>Watches</h3>
+              <p>Only the finest in men's causul wristwear.</p>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 hero-feature product-category animated fadeInDown" id="Book">
+          <div class="thumbnail">
+            <img src="https://d2nwzygg3x0bhb.cloudfront.net/product-images/books.jpg" alt="">
+            <div class="caption">
+              <h3>Books</h3>
+              <p>A choice selection of books for your reading pleasure.</p>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 hero-feature product-category animated fadeInDown" id="Apparel">
+          <div class="thumbnail">
+            <img src="https://d2nwzygg3x0bhb.cloudfront.net/product-images/apparel.jpg" alt="">
+            <div class="caption">
+              <h3>Apparel</h3>
+              <p>Looking for women's apparel? We got it!</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 hero-feature product-category animated fadeInDown" id="Meat">
+          <div class="thumbnail">
+            <img src="https://d2nwzygg3x0bhb.cloudfront.net/product-images/meat.jpg" alt="">
+            <div class="caption">
+              <h3>Meat</h3>
+              <p>Delicious meats from around the world. </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- /.row -->
+    </section>
+    <hr>
+
+    <!-- ****************CART AREA handlebars ************************* -->
+    <section class="cart animated fadeInUp" id="cart">
+      <!-- Start of Cart HTML -->
+
+      <div id="carttest" class="carttest col-sm-12">
+        <h1>Shopping Cart</h1>
+
+        <div class="shopping-cart col-sm-12">
+
+          <div class="column-labels">
+            <label class="productprice">Price</label>
+            <label class="product-quantity quant">Quantity</label>
+            <label class="productlineprice">Total</label>
+          </div>
+
+          <div class="fullCart col-sm-12" id="fullCart">
+          </div>
+
+          <div class="totals col-sm-12">
+            <div class="totals-item">
+              <label>Subtotal</label>
+              <div class="totals-value" id="cart-subtotal">0</div>
+            </div>
+            <div class="totals-item">
+              <label>Free Shipping</label>
+              <div class="totals-value" id="cart-shipping">0</div>
+            </div>
+            <div class="totals-item totals-item-total">
+              <label>Grand Total</label>
+              <div class="totals-value" id="cart-total">0</div>
+            </div>
+          </div>
+        </div>
+
+        <button id="checkout-button" class="checkout">Checkout</button>
+        <button id="keep-shop-button" class="keep-shopping">Keep Shopping</button>
+      </div>
+  </div>
+
+
+  <!-- End of Cart HTML -->
+  </section>
+  <!-- ****************END OF CART AREA handlebars ************************* -->
+
+  <!-- ****************ORDER PRODUCTS handlebars ************************* -->
+  <section class="products row col-lg-12" id="products">
+  </section>
+  <!-- ****************END OF PRODUCTS AREA handlebars ************************* -->
+
+
+  <!-- ****************ORDER CHECKOUT handlebars ************************* -->
+  <section class="checkout-container animated fadeInUp" id="checkout-container">
+    <div class="container wrapper col-centered col-lg-6">
+      <div class="row cart-body">
+        <div class="addresses">
+          <label>Your Saved Shipping Addresses</label>
+            <form id="use_address">
+              <select class="address-display" name="addresses"></select>
+              <br />
+              <br />
+              <button type="submit" value="Use this address" class="btn btn-primary btn-submit-fix">Use this address</button>
+            </form>
+        </div>
+        <div>
+          <form id="order-form" class="form-horizontal" method="post" action="">
+            <!--SHIPPING METHOD-->
+            <div class="panel panel-info checkout_form">
+              <div class="panel-body">
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <h4>Shipping Address</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6 col-xs-12">
+                  <strong>Name:</strong>
+                  <input type="text" name="name" class="form-control" id="nameField" value="" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-12"><strong>Address:</strong></div>
+                <div class="col-md-12">
+                  <input type="text" name="address" id="addressField" class="form-control" value="" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-12"><strong>City:</strong></div>
+                <div class="col-md-12">
+                  <input type="text" name="city" id="cityField" class="form-control" value="" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-12"><strong>State:</strong></div>
+                <div class="col-md-12">
+                  <input type="text" name="state" id="stateField" class="form-control" value="" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-12"><strong>Zip / Postal Code:</strong></div>
+                <div class="col-md-12">
+                  <input type="text" name="zip_code" id="zipField" class="form-control" value="" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-12"><strong>Country:</strong></div>
+                <div class="col-md-12">
+                  <input type="text" class="form-control" id="countryField" name="country" value="" required>
+                </div>
+
+              </div>
+              <div class="panel-heading"><span><i class="glyphicon glyphicon-lock"></i></span> Secure Payment</div>
+                <div class="form-group">
+                  <div class="text-center">
+                    <button type="submit" id="place-order" class="btn btn-primary btn-submit-fix">Place Order</button>
+                    <button type="button" id="shop-again" class="btn btn-primary btn-submit-fix">Shop Again</button>
+                    <input id="checkBox" type="checkbox">
+                    <label>Check here to save this address for future use</label>
+                  </div>
+                  </form>
+                </div>
+            </div>
+
+        </div>
+        <!--SHIPPING METHOD END-->
+      </div>
+    </div>
+  </section>
+  <!-- ****************END OF CHECKOUT AREA handlebars ************************* -->
+
+  <!-- ****************ORDER AREA handlebars ************************* -->
+  <section class="order animated fadeInUp" id="order">
+  </section>
+  <!-- ****************END OF ORDER AREA handlebars ************************* -->
+
+
+
+
+
+  <div class="about__section row text-center">
+    <!-- Specificity container -->
+    <div class="row heading">
+      <div class="col-md-6 col-md-offset-3">
+        <h2 class="text-center bottom-line">Meet Our Team</h2>
+        <p class="subheading text-center">Masters of git rebase</p>
+      </div>
+    </div>
+    <div class="about__slot col-md-3 col-sm-6 hero-feature">
+      <div class="headshot" style="background-image:url('https://d3fma3jd4nphf1.cloudfront.net/product-images/alan.jpg')"></div>
+      <div class="about__info">
+        <h4 class="name">Alan</h4>
+        <h5 class="title">Henderson</h5>
+      </div>
+    </div>
+    <div class="about__slot col-md-3 col-sm-6 hero-feature">
+      <div class="headshot" style="background-image:url('https://d3fma3jd4nphf1.cloudfront.net/product-images/deedee.jpg')"></div>
+      <div class="about__info">
+        <h4 class="name">Deirdre</h4>
+        <h5 class="title">Forte</h5>
+      </div>
+    </div>
+
+    <div class="about__slot col-md-3 col-sm-6 hero-feature">
+      <div class="headshot" style="background-image:url('https://d3fma3jd4nphf1.cloudfront.net/product-images/jon.jpg')"></div>
+      <div class="about__info">
+        <h4 class="name">Jon</h4>
+        <h5 class="title">Cohen</h5>
+      </div>
+    </div>
+
+    <div class="about__slot col-md-3 col-sm-6 hero-feature">
+      <div class="headshot" style="background-image:url('https://d3fma3jd4nphf1.cloudfront.net/product-images/ryan.jpg')"></div>
+      <div class="about__info">
+        <h4 class="name">Ryan</h4>
+        <h5 class="title">Ongchoa</h5>
+      </div>
+    </div>
+
+  </div>
+
+  </div>
+  <!-- /.container -->
+</body>
+
+</html>
