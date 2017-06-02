@@ -1,9 +1,9 @@
   {{#each address as |add|}}
-  <option class="address" value="{{add._id}}">
-    <label>Address: <span>{{add.street}}</span></label><br />
-    <label>City: <span>{{add.city}}</span></label><br />
-    <label>State: <span>{{add.state}}</span></label><br />
-    <label>Zip: <span>{{add.zip}}</span></label><br />
-    <label>Country: <span>{{add.country}}</span></label><br />
+  <option class="address" value="selected_{{add._id}}">
+    <label>Address: <span id="street">{{add.street}}</span></label><br />
+    <label>City: <span id="city">{{add.city}}</span></label><br />
+    <label>State: <span id="state">{{add.state}}</span></label><br />
+    <label>Zip: <span id="zip">{{add.zip}}</span></label><br />
+    <label>Country: <span id="country">{{add.country}}</span></label><br />
   </option>
   {{/each}}

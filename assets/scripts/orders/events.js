@@ -121,11 +121,17 @@ const showOrderForm = function () {
 //   Stripe.setPublishableKey('pk_test_9WemBaMhQokjQEfkfAQiLXmr')
 // }
 
+const getSavedAddress = function (event) {
+  console.log('inside saved address')
+  event.preventDefault()
+}
+
 const addHandlers = () => {
   $('#order-button').on('click', getOrders)
   $('#order-form').on('submit', checkout)
   $('#checkout-button').on('click', showOrderForm)
   $('#shop-again').on('click', prod.returnHomeButton)
+  $('#use_address').on('submit', getSavedAddress)
 }
 
 module.exports = {
