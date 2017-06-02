@@ -15,7 +15,7 @@ const create = (data) => {
 
 const get = () => {
   return $.ajax({
-    url: config.apiOrigin + '/carts',
+    url: config.apiOrigin + '/addresses',
     method: 'GET',
     headers: {
       Authorization: 'Token token=' + store.user.token

@@ -4,6 +4,7 @@ const ordersApi = require('./api.js')
 const ordersUi = require('./ui.js')
 const store = require('../store.js')
 const prod = require('../products/events')
+const showAddressTemplate = require('../templates/address.handlebars')
 
 const getOrders = function () {
   ordersApi.index()
@@ -108,11 +109,18 @@ const hideOrder = function () {
   $('#checkout-container').hide()
 }
 const showOrderForm = function () {
+  const addressAPI = require('../addresses/events')
+  addressAPI.getAddresses()
   $('#cart').hide()
   $('#checkout-container').show()
   $('.about__section').hide()
   $('.cart-body').show()
   $('#place-order').show()
+  const showAddressesHTML = showAddressTemplate({
+    address: store.addresses
+  })
+  $('.address-display').empty()
+  $('.address-display').append(showAddressesHTML)
 }
 
 // const setupStripe = function () {

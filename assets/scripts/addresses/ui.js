@@ -12,6 +12,7 @@ const onCreateAddressFailure = function (error) {
 
 const onGetAddressSuccess = function (data) {
   console.log(data)
+  store.addresses = data
   console.log('get address success')
 }
 
