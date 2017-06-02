@@ -1,11 +1,9 @@
-  {{#each address.addresses}}
-  <div class="address" id ="{{_id}}">
-    <label>Address: <span>{{street}}</span></label>
-    <label>City: <span>{{city}}</span></label>
-    <label>State: <span>{{state}}</span></label>
-    <label>Zip: <span>{{zip}}</span></label>
-    <label>Country: <span>{{country}}</span></label>
-    <input id="radio_{{_id}}" type="radio">
-    <label>Check here to use this address</label>
-    </div>
+  {{#each address as |add|}}
+  <option class="address" value="{{add._id}}">
+    <label>Address: <span>{{add.street}}</span></label><br />
+    <label>City: <span>{{add.city}}</span></label><br />
+    <label>State: <span>{{add.state}}</span></label><br />
+    <label>Zip: <span>{{add.zip}}</span></label><br />
+    <label>Country: <span>{{add.country}}</span></label><br />
+  </option>
   {{/each}}

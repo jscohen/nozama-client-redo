@@ -7,6 +7,7 @@ const cartsEvents = require('../carts/events')
 const getProductsSuccess = (data) => {
   store.data = data
   products.products = store.data
+  console.log('inside products', data.products)
   const showProductsHTML = showProductsTemplate({
     products: data.products
   })
