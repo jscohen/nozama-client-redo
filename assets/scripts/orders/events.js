@@ -124,6 +124,8 @@ const showOrderForm = function () {
 const getSavedAddress = function (event) {
   console.log('inside saved address')
   event.preventDefault()
+  const val = $('.address-display').find(':selected').text()
+  console.log(val)
 }
 
 const addHandlers = () => {
