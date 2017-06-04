@@ -21,11 +21,11 @@ TEAM FJORD - can we add to this?
 
 # URLs
 - Client
-  - Repo: https://github.com/pining-for-fjord/nozama-client
-  - Deployed: https://pining-for-fjord.github.io/nozama-client/
+  - Repo: https://github.com/jscohen/nozama-client-redo
+  - Deployed: https://jscohen.github.io/nozama-client-redo/#
 - Backend (API)
-  - Repo: https://github.com/pining-for-fjord/nozama-api
-  - Deployed: https://salty-journey-97556.herokuapp.com/sign-in
+  - Repo: https://github.com/jscohen/nozama-api-redo
+  - Deployed: https://nozama-api-redo.herokuapp.com/
 
 # Design
 - ERD, Schema and User Stories https://git.generalassemb.ly/ga-wdi-boston/team-project/files/44/ERD.USER.docx
@@ -56,7 +56,7 @@ documentations for it on the day we started our projects and were able to get pa
 -Alan Henderson
 This was a great team and a fun project. I think Building an online storefront was more complicated than any of us thought but we got through it. Every member of this team had something unique to bring to the table. We pair programmed through some of the more complicated functionality which I think helped us all learn more about it as we went.
 Working with Stripe was interesting. It was good experience to work with a third party API like this.
-We weren't able to get in all of the functionality we wanted, but I am very proud of the site we built and how we worked as a team. The parrot may have ceased to be, but the FJORD legacy lives on. 
+We weren't able to get in all of the functionality we wanted, but I am very proud of the site we built and how we worked as a team. The parrot may have ceased to be, but the FJORD legacy lives on.
 
 ## Dependencies
 
